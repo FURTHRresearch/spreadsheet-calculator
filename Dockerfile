@@ -8,10 +8,8 @@ RUN apt-get -y update
 RUN apt-get -y install libstdc++6 libcurl3-gnutls libc6 libxml2 libcurl4 fonts-dejavu fonts-opensymbol
 RUN apt-get -y install fonts-liberation fonts-crosextra-carlito
 
-ADD https://download.onlyoffice.com/install/desktop/docbuilder/documentbuilder-x64.tar.gz documentbuilder.tar.gz
-RUN mkdir documentbuilder
-RUN tar -zxvf documentbuilder.tar.gz -C documentbuilder --strip-components=1
-ENV PATH="${PATH}:/app/documentbuilder"
+ADD https://download.onlyoffice.com/install/desktop/docbuilder/linux/onlyoffice-documentbuilder_amd64.deb docbuilder.deb
+RUN dpkg -i docbuilder.deb
 
 COPY Pipfile ./
 RUN pip install pipenv
