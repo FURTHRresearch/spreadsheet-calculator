@@ -10,7 +10,7 @@ def hello():
     return 'Hello, World!'
 
 
-@bp.route('/protected')
+@bp.route('/evaluate')
 @check_key
-def protected():
+def evaluate():
     return 'Hello, Protected World!'
