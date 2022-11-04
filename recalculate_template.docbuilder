@@ -1,0 +1,4 @@
+builder.OpenFile("<filename>");
+Api.RecalculateAllFormulas();
+builder.SaveFile("xlsx", "<filename_new>");
+builder.CloseFile();
