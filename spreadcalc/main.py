@@ -20,9 +20,9 @@ def hello():
 def evaluate():
     root_file_path = flask.current_app.config.get("ROOT_FILE_PATH")
     spreadsheet_file = uuid.uuid4()
-    spreadsheet_file = os.path.join(root_file_path,f"{spreadsheet_file}.xlsx")
+    spreadsheet_file = f"{spreadsheet_file}.xlsx"
     spreadsheet_file_new = uuid.uuid4()
-    spreadsheet_file_new = os.path.join(root_file_path,f"{spreadsheet_file_new}.xlsx")
+    spreadsheet_file_new = f"{spreadsheet_file_new}.xlsx"
     with open(spreadsheet_file, "wb+") as f:
         spreadsheet_bytes = flask.request.data
         f.write(spreadsheet_bytes)
@@ -33,7 +33,7 @@ def evaluate():
     # spreadsheet_file.close()
 
     docbuilder_file = uuid.uuid4()
-    docbuilder_file = os.path.join(root_file_path, f"{docbuilder_file}.docbuilder")
+    docbuilder_file = f"{docbuilder_file}.docbuilder"
 
     with open("recalculate_template.docbuilder", "r") as f:
         docbuilder_string = f.read()
@@ -43,12 +43,18 @@ def evaluate():
     with open(docbuilder_file, "w+") as f:
         f.write(docbuilder_string)
 
-    time.sleep(0.05)
+    while not os.path.isfile(docbuilder_file):
+        time.sleep(0.01)
 
-    command = ["docbuilder", f"{docbuilder_file}"]
+    command = ["documentbuilder", f"'{docbuilder_file}'"]
     os.system(" ".join(command))
 
-    time.sleep(0.05)
+    timeout = 10
+    start = time.time()
+    while not os.path.isfile(spreadsheet_file_new):
+        time.sleep(0.01)
+        if time.time() - start > timeout:
+            return
 
     with open(spreadsheet_file_new, "rb") as f:
         spreadsheet_bytes = f.read()

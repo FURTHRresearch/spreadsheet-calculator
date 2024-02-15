@@ -11,7 +11,7 @@ By default the service is listing on port 5555. Modify the start.sh to change th
 ## API
 ```
 GET http://localhost/evaluate?spreadsheeturl=xyz&field=A1
-ACCESS_KEY=asdf
+ACCESS-KEY=asdf
 ```
 Response body
 ```
